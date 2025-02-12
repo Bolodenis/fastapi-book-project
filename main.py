@@ -21,3 +21,12 @@ app.include_router(api_router, prefix=settings.API_PREFIX)
 async def health_check():
     """Checks if server is active."""
     return {"status": "active"}
+
+
+@app.get("/test")
+def get_me():
+    return {"user": "Denis"}
+
+@app.get("/book")
+def get_me():
+    return {"user": "Denis"}
