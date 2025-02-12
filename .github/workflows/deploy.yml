@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 name: CD Pipeline
-=======
-name: Deploy Pipeline
-
->>>>>>> fcdd06769c4d7db10eb7cfa708ecd92d7159c0cc
 on:
   push:
     branches: [main]
@@ -11,10 +6,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-<<<<<<< HEAD
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
@@ -51,31 +45,3 @@ jobs:
             cd fastapi-book-project/
             git pull
             docker-compose up -d --build
-=======
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.9
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      # Add steps to build your Docker image or deploy your code
-      # Example: Build a Docker image and push it to a registry
-      # - name: Build Docker image
-      #   run: docker build -t your-dockerhub-username/fastapi-book-project .
-      #
-      # - name: Log in to Docker Hub
-      #   run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-      #
-      # - name: Push Docker image
-      #   run: docker push your-dockerhub-username/fastapi-book-project
-      #
-      # You might then SSH into your server and restart your container, or use another deployment mechanism.
-      - name: Deploy Application
-        run: |
-          echo "Deploying the application..."
-          # Add your deployment commands here
->>>>>>> fcdd06769c4d7db10eb7cfa708ecd92d7159c0cc
