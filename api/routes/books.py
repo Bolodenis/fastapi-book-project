@@ -1,14 +1,12 @@
 from typing import OrderedDict
-from fastapi import APIRouter, HTTPException
-
-from fastapi import APIRouter, status
+from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import JSONResponse
-
 from api.db.schemas import Book, Genre, InMemoryDB
 
 router = APIRouter()
-
 db = InMemoryDB()
+
+# Pre-populate the in-memory database
 db.books = {
     1: Book(
         id=1,
@@ -33,7 +31,6 @@ db.books = {
     ),
 }
 
-
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_book(book: Book):
     db.add_book(book)
@@ -41,13 +38,11 @@ async def create_book(book: Book):
         status_code=status.HTTP_201_CREATED, content=book.model_dump()
     )
 
-
 @router.get(
     "/", response_model=OrderedDict[int, Book], status_code=status.HTTP_200_OK
 )
 async def get_books() -> OrderedDict[int, Book]:
     return db.get_books()
-
 
 @router.put("/{book_id}", response_model=Book, status_code=status.HTTP_200_OK)
 async def update_book(book_id: int, book: Book) -> Book:
@@ -56,16 +51,12 @@ async def update_book(book_id: int, book: Book) -> Book:
         content=db.update_book(book_id, book).model_dump(),
     )
 
-
 @router.delete("/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_book(book_id: int) -> None:
     db.delete_book(book_id)
     return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content=None)
 
-
-router = APIRouter()
-
-@router.get("/api/v1/books/{book_id}", response_model=Book)
+@router.get("/{book_id}", response_model=Book, status_code=status.HTTP_200_OK)
 async def get_book(book_id: int):
     """Retrieve a book by ID"""
     book = db.get_book(book_id)

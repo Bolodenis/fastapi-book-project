@@ -15,7 +15,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ubuntu@34.198.248.145 << 'EOF'
             cd /var/www/fastapi-app
             git pull origin main
             source venv/bin/activate
